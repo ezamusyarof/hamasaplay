@@ -4,65 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hamasa Play</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #0a0e1a;
-      --surface: #111827;
-      --card: #131c30;
-      --card-header-from: #0f1929;
-      --card-header-to: #1a2540;
+      --bg: #06091a;
+      --surface: #0d1228;
+      --card: #111830;
+      --card2: #0e1525;
       --accent: #4f8ef7;
       --accent2: #a855f7;
       --accent3: #22d3ee;
       --gold: #f59e0b;
-      --text: #e2e8f0;
-      --muted: #64748b;
-      --border: rgba(79,142,247,0.18);
-      --glow: rgba(79,142,247,0.35);
-      --grid-line: rgba(79,142,247,0.04);
-      --radial-glow: rgba(79,142,247,0.12);
-      --h1-start: #fff;
-      --badge-bg: rgba(79,142,247,0.1);
-      --pill-bg: rgba(255,255,255,0.04);
-      --input-bg: rgba(255,255,255,0.04);
-      --cat-badge-bg: rgba(0,0,0,0.5);
-    }
-
-    :root.light {
-      --bg: #f0f4ff;
-      --surface: #ffffff;
-      --card: #ffffff;
-      --card-header-from: #dde8ff;
-      --card-header-to: #eaf0ff;
-      --accent: #2563eb;
-      --accent2: #7c3aed;
-      --accent3: #0891b2;
-      --gold: #d97706;
-      --text: #1e293b;
-      --muted: #64748b;
-      --border: rgba(37,99,235,0.2);
-      --glow: rgba(37,99,235,0.25);
-      --grid-line: rgba(37,99,235,0.06);
-      --radial-glow: rgba(37,99,235,0.08);
-      --h1-start: #1e293b;
-      --badge-bg: rgba(37,99,235,0.08);
-      --pill-bg: rgba(37,99,235,0.06);
-      --input-bg: rgba(37,99,235,0.04);
-      --cat-badge-bg: rgba(255,255,255,0.75);
+      --text: #eef2ff;
+      --muted: #7a8bb5;
+      --border: rgba(79,142,247,0.16);
+      --glow: rgba(79,142,247,0.3);
+      --grid-line: rgba(79,142,247,0.035);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Nunito', sans-serif;
-      background-color: var(--bg);
+      background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
-      transition: background-color 0.4s ease, color 0.4s ease;
+      /* Smartboard: cursor always visible, large touch targets */
+      cursor: default;
     }
 
+    /* Grid background */
     body::before {
       content: '';
       position: fixed;
@@ -70,235 +42,275 @@
       background-image:
         linear-gradient(var(--grid-line) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-      background-size: 48px 48px;
+      background-size: 60px 60px;
       pointer-events: none;
       z-index: 0;
-      transition: background-image 0.4s;
     }
 
+    /* Ambient glow top */
     body::after {
       content: '';
       position: fixed;
-      top: -30%;
+      top: -20%;
       left: 50%;
       transform: translateX(-50%);
-      width: 900px;
-      height: 500px;
-      background: radial-gradient(ellipse at center, var(--radial-glow) 0%, transparent 70%);
+      width: 1200px;
+      height: 600px;
+      background: radial-gradient(ellipse at center, rgba(79,142,247,0.08) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
 
+    /* ========== HEADER ========== */
     header {
       position: relative;
       z-index: 10;
-      text-align: center;
-      padding: 64px 24px 40px;
-    }
-
-    .logo-badge {
-      display: inline-flex;
+      padding: 36px 60px 28px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
-      gap: 10px;
-      background: var(--badge-bg);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 6px 18px 6px 10px;
-      margin-bottom: 24px;
-      font-size: 13px;
-      color: var(--accent3);
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: background-color 0.4s, border-color 0.4s;
+      gap: 40px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(13,18,40,0.95) 0%, transparent 100%);
     }
 
-    .logo-badge span {
-      width: 8px; height: 8px;
+    .header-brand {
+      display: block;
+    }
+
+    .header-badge {
+      display: inline-block;
+      background: rgba(34,211,238,0.1);
+      border: 1px solid rgba(34,211,238,0.25);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .header-badge .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
       background: var(--accent3);
       border-radius: 50%;
-      display: inline-block;
-      box-shadow: 0 0 8px var(--accent3);
+      box-shadow: 0 0 6px var(--accent3);
       animation: pulse-dot 2s infinite;
+      vertical-align: middle;
+      margin-right: 7px;
+      position: relative;
+      top: -1px;
     }
 
     @keyframes pulse-dot {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+      50% { opacity: 0.3; }
     }
 
-    h1 {
+    .header-title {
       font-family: 'Orbitron', monospace;
-      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-size: 2.6rem;
       font-weight: 900;
-      letter-spacing: 0.04em;
-      background: linear-gradient(135deg, var(--h1-start) 30%, var(--accent) 70%, var(--accent2) 100%);
+      letter-spacing: 0.06em;
+      background: linear-gradient(135deg, #ffffff 0%, var(--accent) 60%, var(--accent2) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      line-height: 1.1;
-      margin-bottom: 14px;
+      line-height: 1;
+      display: block;
     }
 
-    .subtitle {
-      font-size: 1.1rem;
-      color: var(--muted);
-      font-weight: 400;
-      max-width: 420px;
-      margin: 0 auto 36px;
-      line-height: 1.6;
-    }
-
-    .controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      max-width: 800px;
-      margin: 0 auto 20px;
-    }
-
-    .search-box {
+    /* Search center */
+    .header-search {
       position: relative;
-      flex: 1;
-      min-width: 240px;
-      max-width: 380px;
     }
 
-    .search-box svg {
+    .header-search svg {
       position: absolute;
-      left: 14px;
+      left: 18px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--muted);
-      width: 18px; height: 18px;
+      width: 22px;
+      height: 22px;
     }
 
-    .search-box input {
+    .header-search input {
       width: 100%;
-      background: var(--input-bg);
+      background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 16px 12px 42px;
+      border-radius: 16px;
+      padding: 16px 20px 16px 52px;
       color: var(--text);
       font-family: 'Nunito', sans-serif;
-      font-size: 0.9rem;
+      font-size: 1rem;
+      font-weight: 600;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.4s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .search-box input::placeholder { color: var(--muted); }
-    .search-box input:focus {
+    .header-search input::placeholder { color: var(--muted); }
+    .header-search input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(79,142,247,0.15);
+      box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
     }
 
-    .filter-pills {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
+    /* Header right: clock + theme */
+    .header-right {
+      text-align: right;
+    }
+
+    .classroom-clock {
+      font-family: 'Orbitron', monospace;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text);
+      display: block;
+      letter-spacing: 0.05em;
+    }
+
+    .classroom-date {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 600;
+      display: block;
+      margin-top: 4px;
+    }
+
+    /* ========== FILTER BAR ========== */
+    .filter-bar {
+      position: relative;
+      z-index: 9;
+      padding: 20px 60px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: rgba(6,9,26,0.6);
     }
 
     .pill {
-      background: var(--pill-bg);
-      border: 1px solid var(--border);
+      display: inline-block;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid var(--border);
       border-radius: 100px;
-      padding: 8px 18px;
-      font-size: 0.82rem;
-      font-weight: 700;
+      padding: 12px 24px;
+      font-size: 0.9rem;
+      font-weight: 800;
       color: var(--muted);
       cursor: pointer;
       transition: all 0.2s;
       font-family: 'Nunito', sans-serif;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
+      margin: 5px;
+      vertical-align: middle;
+      /* Large tap targets for smartboard */
+      min-height: 48px;
+      line-height: 1.2;
     }
 
-    .pill:hover, .pill.active {
+    .pill:hover {
+      border-color: rgba(79,142,247,0.5);
+      color: var(--text);
+      background: rgba(79,142,247,0.08);
+    }
+
+    .pill.active {
       background: var(--accent);
       border-color: var(--accent);
       color: #fff;
-      box-shadow: 0 0 16px var(--glow);
+      box-shadow: 0 0 20px var(--glow);
     }
 
+    /* ========== MAIN GRID ========== */
     main {
       position: relative;
       z-index: 5;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 40px 24px 80px;
+      padding: 32px 60px 60px;
+    }
+
+    .grid-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      margin-bottom: 24px;
     }
 
     .section-label {
       font-family: 'Orbitron', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.18em;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 8px;
-      padding-left: 4px;
+      display: block;
+      margin-bottom: 4px;
     }
 
     .game-count {
-      font-size: 0.82rem;
+      font-size: 0.88rem;
       color: var(--muted);
-      margin-bottom: 20px;
+      font-weight: 600;
     }
 
     .game-count strong { color: var(--accent); }
 
+    /* Game grid — 4 columns on smartboard landscape */
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 22px;
     }
 
+    /* ========== GAME CARD ========== */
     .game-card {
       position: relative;
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 22px;
       overflow: hidden;
       cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s, background-color 0.4s;
-      animation: fadeInUp 0.5s ease both;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s;
+      animation: fadeInUp 0.4s ease both;
     }
 
     .game-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      border-color: var(--accent);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 0 30px var(--glow);
+      transform: translateY(-6px) scale(1.015);
+      border-color: rgba(79,142,247,0.5);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.3), 0 0 32px var(--glow);
     }
 
     .game-card::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(79,142,247,0.05) 0%, transparent 60%);
+      background: linear-gradient(135deg, rgba(79,142,247,0.04) 0%, transparent 60%);
       opacity: 0;
-      transition: opacity 0.3s;
+      transition: opacity 0.25s;
       pointer-events: none;
+      z-index: 1;
     }
 
     .game-card:hover::before { opacity: 1; }
 
+    /* Card top area */
     .card-header {
       position: relative;
-      height: 130px;
-      background: linear-gradient(135deg, var(--card-header-from) 0%, var(--card-header-to) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 150px;
+      background: linear-gradient(135deg, #0f1929 0%, #1a2540 100%);
+      text-align: center;
+      line-height: 150px;
       overflow: hidden;
-      transition: background-color 0.4s;
     }
 
     .card-header::after {
       content: '';
       position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 40px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
       background: linear-gradient(to top, var(--card), transparent);
     }
 
@@ -306,319 +318,201 @@
       position: absolute;
       inset: 0;
       opacity: 0;
-      transition: opacity 0.3s;
+      transition: opacity 0.25s;
     }
 
     .game-card:hover .card-bg-glow { opacity: 1; }
 
-    .game-icon-placeholder {
-      width: 72px; height: 72px;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
+    .game-emoji {
+      display: inline-block;
+      font-size: 3rem;
+      vertical-align: middle;
       position: relative;
       z-index: 2;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-      transition: transform 0.3s;
-      background: rgba(255,255,255,0.05);
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
     }
 
-    .game-card:hover .game-icon-placeholder {
-      transform: scale(1.12) rotate(-2deg);
+    .game-card:hover .game-emoji {
+      transform: scale(1.15) rotate(-3deg);
     }
 
     .category-badge {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      background: var(--cat-badge-bg);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.08);
+      top: 14px;
+      right: 14px;
       border-radius: 100px;
-      padding: 3px 10px;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       z-index: 3;
-      transition: background-color 0.4s;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.08);
+      line-height: normal;
     }
 
-    .card-body { padding: 16px 18px 18px; }
+    .card-body {
+      padding: 18px 20px 20px;
+    }
 
     .game-title {
       font-family: 'Orbitron', monospace;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-weight: 700;
       color: #fff;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .game-meta {
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       color: var(--muted);
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
+    /* PLAY BUTTON — large, finger-friendly for smartboard */
     .play-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      display: block;
       width: 100%;
-      padding: 11px;
-      border-radius: 12px;
+      padding: 14px;
+      border-radius: 14px;
       border: none;
-      background: linear-gradient(135deg, var(--accent), #3b6fd4);
+      background: linear-gradient(135deg, var(--accent) 0%, #3068d4 100%);
       color: #fff;
       font-family: 'Orbitron', monospace;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       cursor: pointer;
-      transition: all 0.25s;
+      transition: all 0.2s;
       position: relative;
       overflow: hidden;
+      text-align: center;
+      line-height: 1.4;
+      /* min touch target */
+      min-height: 52px;
     }
 
-    .play-btn::before {
+    .play-btn svg {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+      vertical-align: middle;
+      margin-right: 8px;
+      position: relative;
+      top: -1px;
+    }
+
+    .play-btn::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
       opacity: 0;
       transition: opacity 0.2s;
     }
 
     .play-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(79,142,247,0.5);
+      box-shadow: 0 10px 28px rgba(79,142,247,0.55);
     }
 
-    .play-btn:hover::before { opacity: 1; }
-    .play-btn:active { transform: translateY(0); }
-
-    .play-btn svg {
-      width: 14px; height: 14px;
-      fill: #fff;
-    }
+    .play-btn:hover::after { opacity: 1; }
+    .play-btn:active { transform: scale(0.98); }
 
     /* CATEGORY COLORS */
     .cat-agama { color: var(--gold); }
     .cat-bahasa { color: #22c55e; }
     .cat-mtk { color: var(--accent3); }
-    .cat-lainnya { color: #c8c8c8; }
+    .cat-lainnya { color: #c084fc; }
     .cat-olahraga { color: #f97316; }
     .cat-puzzle { color: #ec4899; }
-    .cat-gambar { color: #dff117; }
-    .cat-kata { color: #2579ff; }
+    .cat-gambar { color: #facc15; }
+    .cat-kata { color: #60a5fa; }
 
-    .bg-agama { background: radial-gradient(circle at 50% 50%, rgba(245,158,11,0.25) 0%, transparent 70%); }
-    .bg-bahasa { background: radial-gradient(circle at 50% 50%, rgba(34,197,94,0.25) 0%, transparent 70%); }
-    .bg-mtk { background: radial-gradient(circle at 50% 50%, rgba(34,211,238,0.25) 0%, transparent 70%); }
-    .bg-lainnya { background: radial-gradient(circle at 50% 50%, rgba(168,85,247,0.25) 0%, transparent 70%); }
-    .bg-olahraga { background: radial-gradient(circle at 50% 50%, rgba(249,115,22,0.25) 0%, transparent 70%); }
-    .bg-puzzle { background: radial-gradient(circle at 50% 50%, rgba(236,72,153,0.25) 0%, transparent 70%); }
-    .bg-gambar { background: radial-gradient(circle at 50% 50%, rgba(236,72,153,0.25) 0%, transparent 70%); }
-    .bg-kata { background: radial-gradient(circle at 50% 50%, rgba(236,72,153,0.25) 0%, transparent 70%); }
+    .bg-agama { background: radial-gradient(circle at 50% 50%, rgba(245,158,11,0.3) 0%, transparent 70%); }
+    .bg-bahasa { background: radial-gradient(circle at 50% 50%, rgba(34,197,94,0.3) 0%, transparent 70%); }
+    .bg-mtk { background: radial-gradient(circle at 50% 50%, rgba(34,211,238,0.3) 0%, transparent 70%); }
+    .bg-lainnya { background: radial-gradient(circle at 50% 50%, rgba(192,132,252,0.3) 0%, transparent 70%); }
+    .bg-olahraga { background: radial-gradient(circle at 50% 50%, rgba(249,115,22,0.3) 0%, transparent 70%); }
+    .bg-puzzle { background: radial-gradient(circle at 50% 50%, rgba(236,72,153,0.3) 0%, transparent 70%); }
+    .bg-gambar { background: radial-gradient(circle at 50% 50%, rgba(250,204,21,0.3) 0%, transparent 70%); }
+    .bg-kata { background: radial-gradient(circle at 50% 50%, rgba(96,165,250,0.3) 0%, transparent 70%); }
 
-    /* === THEME TOGGLE === */
-    .theme-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 100;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 8px 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
+    /* ========== EMPTY STATE ========== */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 40px;
       color: var(--muted);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
     }
 
-    .theme-toggle:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      box-shadow: 0 4px 20px var(--glow);
-    }
+    .empty-state .empty-icon { font-size: 3rem; display: block; margin-bottom: 16px; }
+    .empty-state h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+    .empty-state p { font-size: 0.9rem; }
 
-    .theme-toggle .toggle-track {
-      width: 36px;
-      height: 20px;
-      border-radius: 100px;
-      background: var(--border);
-      position: relative;
-      transition: background-color 0.3s;
-    }
-
-    .theme-toggle .toggle-thumb {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--muted);
-      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), background-color 0.3s;
-    }
-
-    :root.light .toggle-track { background: var(--accent); }
-    :root.light .toggle-thumb {
-      transform: translateX(16px);
-      background: #fff;
-    }
-
-    .toggle-icon { font-size: 1rem; line-height: 1; }
-
+    /* ========== FOOTER / STATUS BAR ========== */
     footer {
       position: relative;
       z-index: 5;
-      margin-top: 20px;
       border-top: 1px solid var(--border);
-      background: var(--card);
-      transition: background-color 0.4s, border-color 0.4s;
-    }
-
-    .footer-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 40px 24px 28px;
+      background: rgba(13,18,40,0.9);
+      padding: 16px 60px;
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      gap: 24px;
     }
 
-    .footer-brand {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .footer-logo {
-      font-family: 'Orbitron', monospace;
-      font-size: 1.1rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, var(--h1-start) 20%, var(--accent) 80%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .footer-tagline {
+    .footer-left {
       font-size: 0.78rem;
       color: var(--muted);
       font-weight: 600;
     }
 
-    .footer-center {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
+    .footer-left strong { color: var(--accent3); }
 
-    .footer-dot {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      box-shadow: 0 0 16px var(--glow);
-    }
-
-    .footer-copy {
-      font-size: 0.75rem;
+    .footer-center-text {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
       color: var(--muted);
+      letter-spacing: 0.15em;
       text-align: center;
-      line-height: 1.6;
     }
 
-    .footer-copy strong { color: var(--accent); }
-
-    .footer-right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 8px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 16px;
-    }
-
-    .footer-links a {
+    .footer-right-text {
       font-size: 0.78rem;
-      font-weight: 700;
       color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-      letter-spacing: 0.03em;
+      font-weight: 600;
+      text-align: right;
     }
 
-    .footer-links a:hover { color: var(--accent); }
-
-    .footer-divider {
-      width: 100%;
-      height: 1px;
-      background: var(--border);
-      margin: 0;
-    }
-
-    .footer-bottom {
-      text-align: center;
-      padding: 12px 24px;
-      font-size: 0.72rem;
-      color: var(--muted);
-      opacity: 0.6;
-    }
-
-    @media (max-width: 640px) {
-      .footer-inner {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      .footer-brand { align-items: center; }
-      .footer-right { align-items: center; }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+    /* ========== TOAST ========== */
     .toast {
       position: fixed;
-      bottom: 32px;
+      bottom: 100px;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
+      transform: translateX(-50%) translateY(80px);
       background: var(--surface);
-      border: 1px solid var(--accent);
-      border-radius: 12px;
-      padding: 12px 20px;
-      font-size: 0.85rem;
+      border: 1.5px solid var(--accent);
+      border-radius: 16px;
+      padding: 16px 28px;
+      font-size: 1rem;
+      font-weight: 700;
       color: var(--text);
       z-index: 999;
-      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s;
       opacity: 0;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
       white-space: nowrap;
     }
 
@@ -627,197 +521,309 @@
       opacity: 1;
     }
 
-    ::-webkit-scrollbar { width: 6px; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: rgba(79,142,247,0.25); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-    @media (max-width: 600px) {
-      .games-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
-      h1 { font-size: 1.8rem; }
+    @media (max-width: 900px) {
+      header { padding: 20px 24px; gap: 16px; }
+      main { padding: 24px 24px 48px; }
+      .filter-bar { padding: 16px 24px; }
+      footer { padding: 14px 24px; }
+      .header-title { font-size: 1.8rem; }
+      .classroom-clock { font-size: 1.5rem; }
+      .games-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
     }
   </style>
 </head>
 <body>
 
-<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
-  <span class="toggle-icon" id="themeIcon">🌙</span>
-  <div class="toggle-track"><div class="toggle-thumb"></div></div>
-  <span id="themeLabel">Dark</span>
-</button>
-
+<!-- ========== HEADER ========== -->
 <header>
-  <div class="logo-badge">
-    <span></span>
-    Platform Game Edukasi
-  </div>
-  <h1>HAMASA PLAY</h1>
-  <p class="subtitle">Pilih game dan mulai belajar sambil bermain 🎮</p>
-
-  <div class="controls">
-    <div class="search-box">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-      <input type="text" id="search" placeholder="Cari game..." oninput="filterGames()"/>
-    </div>
+  <div class="header-brand">
+    <span class="header-title">HAMASA PLAY</span>
   </div>
 
-  <div class="filter-pills">
-    <button class="pill active" onclick="setFilter('semua', this)">🎮 Semua</button>
-    <button class="pill" onclick="setFilter('bahasa', this)">📖 Bahasa</button>
-    <button class="pill" onclick="setFilter('mtk', this)">🔢 MTK</button>
-    <button class="pill" onclick="setFilter('olahraga', this)">🏆 olahraga</button>
-    <button class="pill" onclick="setFilter('agama', this)">🌙 Agama</button>
-    <button class="pill" onclick="setFilter('puzzle', this)">🧩 Puzzle</button>
-    <button class="pill" onclick="setFilter('gambar', this)">🖼️ Gambar</button>
-    <button class="pill" onclick="setFilter('kata', this)">🔠 Kata</button>
-    <button class="pill" onclick="setFilter('lainnya', this)">🌍 Lainnya</button>
+  <div class="header-search">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input type="text" id="search" placeholder="Cari game pembelajaran..." oninput="filterGames()"/>
+  </div>
+
+  <div class="header-right">
+    <span class="classroom-clock" id="clock">00:00:00</span>
+    <span class="classroom-date" id="dateLabel">Memuat...</span>
   </div>
 </header>
 
+<!-- ========== FILTER BAR ========== -->
+<div class="filter-bar">
+  <button class="pill active" onclick="setFilter('semua', this)">🎮 Semua</button>
+  <button class="pill" onclick="setFilter('bahasa', this)">📖 Bahasa</button>
+  <button class="pill" onclick="setFilter('mtk', this)">🔢 Matematika</button>
+  <!-- <button class="pill" onclick="setFilter('olahraga', this)">⚽ Olahraga</button> -->
+  <button class="pill" onclick="setFilter('puzzle', this)">🧩 Puzzle</button>
+  <button class="pill" onclick="setFilter('gambar', this)">🖼️ Gambar</button>
+  <button class="pill" onclick="setFilter('kata', this)">🔠 Kata</button>
+  <button class="pill" onclick="setFilter('lainnya', this)">🌍 Lainnya</button>
+</div>
+
+<!-- ========== MAIN ========== -->
 <main>
-  <div class="section-label">// Game Library</div>
-  <div class="game-count" id="game-count"></div>
+  <div class="grid-header">
+    <div>
+      <!-- <span class="section-label">// Perpustakaan Game</span> -->
+      <div class="game-count" id="game-count"></div>
+    </div>
+  </div>
   <div class="games-grid" id="games-grid"></div>
 </main>
 
+<!-- ========== FOOTER STATUS BAR ========== -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <div class="footer-logo">HAMASA PLAY</div>
-      <div class="footer-tagline">Platform Game Edukasi Indonesia 🇮🇩</div>
-    </div>
+  <div class="footer-left">
+    Platform Game Edukasi &nbsp;·&nbsp; <strong>Hamasa Play</strong>
   </div>
-  <div class="footer-divider"></div>
-  <div class="footer-bottom">&copy; 2026 Hamasa Play</div>
+  <div class="footer-center-text">HAMASA PLAY · 2026</div>
+  <div class="footer-right-text">Belajar sambil bermain 🎮</div>
 </footer>
 
 <div class="toast" id="toast"></div>
 
 <script>
+  /* =============================================
+     GAME DATA
+  ============================================= */
   const games = [
-    { title: "AI Basketball", category: "olahraga", label: "Game Tanding Basket", emoji: "🏀", color: "bg-olahraga", catClass: "cat-olahraga", url: "https://gamebasket.papaninteraktif.com/" },
-    { title: "Baurak Gambar", category: "puzzle", label: "Bagian Usai Rangkai Kembali", emoji: "🧩", color: "bg-puzzle", catClass: "cat-puzzle", url: "https://gamepuzzle.papaninteraktif.com/" },
-    { title: "Blockly Games", category: "lainnya", label: "Game for tomorrow's programmer", emoji: "📦", color: "bg-lainnya", catClass: "cat-lainnya", url: "https://blockly.games/" },
-    { title: "Celestial Weaver", category: "agama", label: "Jalur Cahaya Al-Qur'an", emoji: "🌙", color: "bg-agama", catClass: "cat-agama", url: "https://susunayat.papaninteraktif.com/" },
-    { title: "Doodle AI", category: "gambar", label: "Gambar dan AI akan Menebak", emoji: "🖊️", color: "bg-gambar", catClass: "cat-gambar", url: "https://doodleai.papaninteraktif.com/" },
-    { title: "Duel Pipet", category: "mtk", label: "Matematika", emoji: "🧪", color: "bg-mtk", catClass: "cat-mtk", url: "https://script.google.com/macros/s/AKfycby7VP6hZzuK8t1jC4ZXOcXY3OtT40P-zUsyRrjj2dmWf8lzgTNVH5m0BFPFhYUZ8Pqo/exec" },
-    { title: "Duolingo", category: "bahasa", label: "The free, fun, and effective way to learn a language!", emoji: "🦜", color: "bg-bahasa", catClass: "cat-bahasa", url: "https://www.duolingo.com/" },
-    { title: "Duel Penisi", category: "kata", label: "Kata dan Kalimat", emoji: "⛵", color: "bg-kata", catClass: "cat-kata", url: "https://script.google.com/macros/s/AKfycbxxXUc2ErV1b7Ag2qK9GFtED7LvsDtDYHy5dSTFntpXhY92jR3D_p4biByDARBDB-dV/exec" },
-    { title: "English Math Race", category: "bahasa", label: "Mencocokkan kata", emoji: "📑", color: "bg-bahasa", catClass: "cat-bahasa", url: "https://script.google.com/macros/s/AKfycbwBnPIGYRc7Uh7-3NRPhrsUzgkv74azLKFBQhZxxjQ700S_nR1FKc_kVrHBLucgqi3j/exec"},
-    { title: "Flippity", category: "bahasa", label: "Multitude of Digital Activities & Tools", emoji: "🔷", color: "bg-bahasa", catClass: "cat-bahasa", url: "https://flippity.net/" },
-    { title: "Geo Squad", category: "mtk", label: "Main Blok, Asah Otak", emoji: "🌍", color: "bg-mtk", catClass: "cat-mtk", url: "https://denigames.netlify.app/" },
-    { title: "Jagoan Kata", category: "kata", label: "Taklukkan Kata, Jadilah Juara", emoji: "✏️", color: "bg-kata", catClass: "cat-kata", url: "https://literasi.papaninteraktif.com/" },
-    { title: "Jalan Pintar Kancil", category: "puzzle", label: "Cerdik Menghadapi Tantangan", emoji: "🦌", color: "bg-puzzle", catClass: "cat-puzzle", url: "https://kancil-logic-puzzle-game.papaninteraktif.com/" },
-    { title: "Mancing Kata", category: "kata", label: "Game Kosakata dan Logika", emoji: "🎣", color: "bg-kata", catClass: "cat-kata", url: "https://fishing.papaninteraktif.com/" },
-    { title: "Martabak Pecahan", category: "mtk", label: "Game Menghafal Angka", emoji: "🧠", color: "bg-mtk", catClass: "cat-mtk", url: "https://script.google.com/macros/s/AKfycbx90HaiH_5v7NB5Ih4ZV0JehmYAL34dKYQ3T8R0Hmh-cIoOzQZxjM-6FXZyqNaRMshFQQ/exec" },
-    { title: "Memori Angka", category: "mtk", label: "Bikin Martabak, Jago MTK", emoji: "🥧", color: "bg-mtk", catClass: "cat-mtk", url: "https://fraction.papaninteraktif.com/" },
-    { title: "NusaBoard", category: "lainnya", label: "Mind Mapping Game", emoji: "📝", color: "bg-lainnya", catClass: "cat-lainnya", url: "https://nusa.papaninteraktif.com/" },
-    { title: "PictoBlox", category: "lainnya", label: "Get on board, and learn to code!", emoji: "🐻", color: "bg-lainnya", catClass: "cat-lainnya", url: "https://pictoblox.ai/" },
-    { title: "Scratch", category: "lainnya", label: "Creates games by coding", emoji: "💻", color: "bg-lainnya", catClass: "cat-lainnya", url: "https://scratch.mit.edu/projects/editor/?tutorial=getStarted" },
-    { title: "Si Katak Bungas", category: "mtk", label: "Ekspedisi Garis Bilangan", emoji: "🐸", color: "bg-mtk", catClass: "cat-mtk", url: "https://line.papaninteraktif.com/" },
-    { title: "Perang Antariksa", category: "mtk", label: "Game Duel Matematika", emoji: "🚀", color: "bg-mtk", catClass: "cat-mtk", url: "https://spacewar.papaninteraktif.com/" },
-    { title: "Pilah Sampah Race", category: "lainnya", label: "Game Memilah Sampah", emoji: "🗑️", color: "bg-lainnya", catClass: "cat-lainnya", url: "https://script.google.com/macros/s/AKfycbxFizHvhMayLz6kxBpniBRtUj0SbfnClMlaouYBOnc9mjeiSkRSKBovyPnxzJ1Qd4vWtg/exec" },
-    { title: "Tarik Tambang", category: "mtk", label: "Matematika", emoji: "🪢", color: "bg-mtk", catClass: "cat-mtk", url: "https://script.google.com/macros/s/AKfycbzquKCL4g5CpL6J_Hy4m2cGibHebo2aL27gmh1fn74FsfSMVxpyYUK1TLOcP-Suu2hjLw/exec" },
-    { title: "Tank Battle", category: "mtk", label: "Duel Ketangkasan & Pengetahuan", emoji: "🪖", color: "bg-mtk", catClass: "cat-mtk", url: "https://script.google.com/macros/s/AKfycbzbFjHQfTBqJdXEGJbJrrdkcfY9eyTdOQ5MmUHyEmi9VVPyUN1m3O2bQsKOsFcSUC9i_Q/exec?fbclid=IwY2xjawQ_-odleHRuA2FlbQIxMABicmlkETFLU3JJYlVRS25xcWM0cm9xc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHhoqXkBelte8F4A840iQmB27Wkcfu5_w0aUbgjxE4FXl-oqsd55Owq0eDcmo_aem_2NjnzdgbjgdAotVfowEoDA" },
-    { title: "Tanzib", category: "bahasa", label: "Timbangan Arab Ajaib", emoji: "⚖️", color: "bg-bahasa", catClass: "cat-bahasa", url: "https://tanzib.papaninteraktif.com/" },
-    { title: "Traditional Games", category: "mtk", label: "Game Tradisional Indonesia", emoji: "🎭", color: "bg-mtk", catClass: "cat-mtk", url: "https://script.google.com/macros/s/AKfycbx7noID9ShAAhj5-Us7pS2SZSGQthsb88u74G78i0o9pTGJxg2RUIeXznQi8EsnYvGYFg/exec" },
-    { title: "Wokwi", category: "lainnya", label: "World's most advanced ESP32 simulator", emoji: "💼", color: "bg-lainnya", catClass: "cat-lainnya", url: "https://wokwi.com/arduino" },
-    { title: "Wordwall English", category: "bahasa", label: "Create better lessons quicker", emoji: "🗳️", color: "bg-bahasa", catClass: "cat-bahasa", url: "https://wordwall.net/community" },
-    { title: "Zombie City", category: "mtk", label: "Math Battle", emoji: "🧟", color: "bg-mtk", catClass: "cat-mtk", url: "https://ilindekguru.github.io/zombiemtk/" },
+    { title: "Baurak Gambar",       category: "puzzle",   label: "Bagian Usai Rangkai Kembali",            emoji: "🧩", color: "bg-puzzle",   catClass: "cat-puzzle",   url: "https://gamepuzzle.papaninteraktif.com/" },
+    { title: "Blockly Games",       category: "lainnya",  label: "Game for tomorrow's programmer",         emoji: "📦", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://blockly.games/" },
+    { title: "Celestial Weaver",    category: "agama",    label: "Jalur Cahaya Al-Qur'an",                 emoji: "🌙", color: "bg-agama",    catClass: "cat-agama",    url: "https://susunayat.papaninteraktif.com/" },
+    { title: "Doodle AI",           category: "gambar",   label: "Gambar dan AI akan Menebak",             emoji: "🖊️", color: "bg-gambar",   catClass: "cat-gambar",   url: "https://doodleai.papaninteraktif.com/" },
+    { title: "Duel Pipet",          category: "mtk",      label: "Matematika",                             emoji: "🧪", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://script.google.com/macros/s/AKfycby7VP6hZzuK8t1jC4ZXOcXY3OtT40P-zUsyRrjj2dmWf8lzgTNVH5m0BFPFhYUZ8Pqo/exec" },
+    { title: "Duolingo",            category: "bahasa",   label: "The free, fun, and effective way to learn!", emoji: "🦜", color: "bg-bahasa", catClass: "cat-bahasa", url: "https://www.duolingo.com/" },
+    { title: "Duel Penisi",         category: "kata",     label: "Kata dan Kalimat",                       emoji: "⛵", color: "bg-kata",     catClass: "cat-kata",     url: "https://script.google.com/macros/s/AKfycbxxXUc2ErV1b7Ag2qK9GFtED7LvsDtDYHy5dSTFntpXhY92jR3D_p4biByDARBDB-dV/exec" },
+    { title: "English Math Race",   category: "bahasa",   label: "Mencocokkan kata",                       emoji: "📑", color: "bg-bahasa",   catClass: "cat-bahasa",   url: "https://script.google.com/macros/s/AKfycbwBnPIGYRc7Uh7-3NRPhrsUzgkv74azLKFBQhZxxjQ700S_nR1FKc_kVrHBLucgqi3j/exec" },
+    { title: "Geo Squad",           category: "mtk",      label: "Main Blok, Asah Otak",                   emoji: "🌍", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://denigames.netlify.app/" },
+    { title: "Jagoan Kata",         category: "kata",     label: "Taklukkan Kata, Jadilah Juara",          emoji: "✏️", color: "bg-kata",     catClass: "cat-kata",     url: "https://literasi.papaninteraktif.com/" },
+    { title: "Jalan Pintar Kancil", category: "puzzle",   label: "Cerdik Menghadapi Tantangan",            emoji: "🦌", color: "bg-puzzle",   catClass: "cat-puzzle",   url: "https://kancil-logic-puzzle-game.papaninteraktif.com/" },
+    { title: "Mancing Kata",        category: "kata",     label: "Game Kosakata dan Logika",               emoji: "🎣", color: "bg-kata",     catClass: "cat-kata",     url: "https://fishing.papaninteraktif.com/" },
+    { title: "Martabak Pecahan",    category: "mtk",      label: "Game Menghafal Angka",                   emoji: "🧠", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://script.google.com/macros/s/AKfycbx90HaiH_5v7NB5Ih4ZV0JehmYAL34dKYQ3T8R0Hmh-cIoOzQZxjM-6FXZyqNaRMshFQQ/exec" },
+    { title: "Memori Angka",        category: "mtk",      label: "Bikin Martabak, Jago MTK",               emoji: "🥧", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://fraction.papaninteraktif.com/" },
+    { title: "NusaBoard",           category: "lainnya",  label: "Mind Mapping Game",                      emoji: "📝", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://nusa.papaninteraktif.com/" },
+    { title: "PictoBlox",           category: "lainnya",  label: "Get on board, and learn to code!",       emoji: "🐻", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://pictoblox.ai/" },
+    { title: "Scratch",             category: "lainnya",  label: "Creates games by coding",                emoji: "💻", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://scratch.mit.edu/projects/editor/?tutorial=getStarted" },
+    { title: "Si Katak Bungas",     category: "mtk",      label: "Ekspedisi Garis Bilangan",               emoji: "🐸", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://line.papaninteraktif.com/" },
+    { title: "Perang Antariksa",    category: "mtk",      label: "Game Duel Matematika",                   emoji: "🚀", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://spacewar.papaninteraktif.com/" },
+    { title: "Pilah Sampah Race",   category: "lainnya",  label: "Game Memilah Sampah",                    emoji: "🗑️", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://script.google.com/macros/s/AKfycbxFizHvhMayLz6kxBpniBRtUj0SbfnClMlaouYBOnc9mjeiSkRSKBovyPnxzJ1Qd4vWtg/exec" },
+    { title: "Tarik Tambang",       category: "mtk",      label: "Matematika",                             emoji: "🪢", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://script.google.com/macros/s/AKfycbzquKCL4g5CpL6J_Hy4m2cGibHebo2aL27gmh1fn74FsfSMVxpyYUK1TLOcP-Suu2hjLw/exec" },
+    { title: "Tank Battle",         category: "mtk",      label: "Duel Ketangkasan & Pengetahuan",         emoji: "🪖", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://script.google.com/macros/s/AKfycbzbFjHQfTBqJdXEGJbJrrdkcfY9eyTdOQ5MmUHyEmi9VVPyUN1m3O2bQsKOsFcSUC9i_Q/exec" },
+    { title: "Tanzib",              category: "bahasa",   label: "Timbangan Arab Ajaib",                   emoji: "⚖️", color: "bg-bahasa",   catClass: "cat-bahasa",   url: "https://tanzib.papaninteraktif.com/" },
+    { title: "Traditional Games",   category: "mtk",      label: "Game Tradisional Indonesia",             emoji: "🎭", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://script.google.com/macros/s/AKfycbx7noID9ShAAhj5-Us7pS2SZSGQthsb88u74G78i0o9pTGJxg2RUIeXznQi8EsnYvGYFg/exec" },
+    { title: "Wokwi",               category: "lainnya",  label: "World's most advanced ESP32 simulator",  emoji: "💼", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://wokwi.com/arduino" },
+    { title: "Wordwall English",    category: "bahasa",   label: "Create better lessons quicker",          emoji: "🗳️", color: "bg-bahasa",   catClass: "cat-bahasa",   url: "https://wordwall.net/community" },
+    { title: "Zombie City",         category: "mtk",      label: "Math Battle",                            emoji: "🧟", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://ilindekguru.github.io/zombiemtk/" },
+    // ═══════════════════ MATEMATIKA ═══════════════════
+    { title: "Arcademics",          category: "mtk",      label: "Balapan Mobil Sambil Jawab Soal MTK",    emoji: "🏎️", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://www.arcademics.com/" },
+    { title: "Math Playground",     category: "mtk",      label: "200+ Game MTK: Pecahan, Geometri, Aljabar", emoji: "🧮", color: "bg-mtk",   catClass: "cat-mtk",      url: "https://www.mathplayground.com/" },
+    { title: "Cool Math Games",     category: "mtk",      label: "Game Logika, Strategi & Matematika",     emoji: "⚡", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://www.coolmathgames.com/" },
+    { title: "Desmos",              category: "mtk",      label: "Kalkulator Grafik Fungsi Interaktif",     emoji: "📊", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://www.desmos.com/calculator" },
+    { title: "Hooda Math",          category: "mtk",      label: "1000+ Game MTK & Puzzle Gratis",         emoji: "🎯", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://www.hoodamath.com/" },
+    { title: "Topmarks",            category: "mtk",      label: "Drill Perkalian & Pembagian Cepat",      emoji: "🔢", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://www.topmarks.co.uk/maths-games/hit-the-button" },
+    { title: "Toy Theater",         category: "mtk",      label: "Alat Peraga MTK Virtual Interaktif",     emoji: "🎪", color: "bg-mtk",      catClass: "cat-mtk",      url: "https://toytheater.com/category/math-games/" },
+    { title: "2048",                category: "mtk",      label: "Geser Angka, Latih Pola Pikir Matematis", emoji: "🧩", color: "bg-mtk",     catClass: "cat-mtk",      url: "https://play2048.co/" },
+
+    // ═══════════════════ BAHASA & KATA ═══════════════════
+    { title: "Wordle",              category: "kata",     label: "Tebak Kata 5 Huruf dalam 6 Percobaan",   emoji: "🟩", color: "bg-kata",     catClass: "cat-kata",     url: "https://www.nytimes.com/games/wordle/index.html" },
+    { title: "Free Rice",           category: "bahasa",   label: "Jawab Kuis Kosakata = Donasi Beras WFP", emoji: "🍚", color: "bg-bahasa",   catClass: "cat-bahasa",   url: "https://freerice.com/" },
+    { title: "Skribbl.io",          category: "gambar",   label: "Tebak Gambar Multiplayer, Kata Custom",  emoji: "🖌️", color: "bg-gambar",   catClass: "cat-gambar",   url: "https://skribbl.io/" },
+    { title: "Monkey Type",         category: "kata",     label: "Latihan Mengetik Cepat & Akurat",        emoji: "⌨️", color: "bg-kata",     catClass: "cat-kata",     url: "https://monkeytype.com/" },
+    { title: "Nitro Type",          category: "kata",     label: "Balapan Mobil dengan Kecepatan Ketik",   emoji: "🏁", color: "bg-kata",     catClass: "cat-kata",     url: "https://www.nitrotype.com/" },
+
+    // ═══════════════════ GEOGRAFI & IPS ═══════════════════
+    { title: "Seterra",             category: "lainnya",  label: "400+ Kuis Peta Negara & Ibu Kota Dunia", emoji: "🌍", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://www.seterra.com/" },
+    { title: "Sheppard Software",   category: "lainnya",  label: "Game Peta Dunia, Hewan & Sains",         emoji: "🗺️", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://www.sheppardsoftware.com/" },
+    { title: "World Geography Games", category: "lainnya", label: "Kuis Bendera, Peta & Ibu Kota Dunia",  emoji: "🏴", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://www.worldgeographygames.com/" },
+    { title: "Nat Geo Kids Games",  category: "lainnya",  label: "Game Geografi & Sains dari National Geo", emoji: "🌐", color: "bg-lainnya", catClass: "cat-lainnya",  url: "https://kids.nationalgeographic.com/games" },
+
+    // ═══════════════════ IPA & SAINS ═══════════════════
+    { title: "PhET Simulations",    category: "lainnya",  label: "Lab Sains Virtual: Fisika, Kimia, Biologi", emoji: "⚗️", color: "bg-lainnya", catClass: "cat-lainnya", url: "https://phet.colorado.edu/" },
+    { title: "Little Alchemy 2",    category: "puzzle",   label: "Kombinasikan Elemen, Ciptakan 720+ Benda", emoji: "🧪", color: "bg-puzzle",  catClass: "cat-puzzle",   url: "https://littlealchemy2.com/" },
+    { title: "NASA Kids Club",      category: "lainnya",  label: "Game Luar Angkasa Langsung dari NASA",    emoji: "🚀", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://www.nasa.gov/learning-resources/for-kids-and-students/" },
+    { title: "Mr. Nussbaum Sains",  category: "lainnya",  label: "Game Tata Surya, Tubuh Manusia & Hewan", emoji: "🌊", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://mrnussbaum.com/science-games" },
+
+    // ═══════════════════ LOGIKA & CODING ═══════════════════
+    { title: "Hour of Code",        category: "lainnya",  label: "Belajar Coding Lewat Game, Ada Bahasa ID", emoji: "💡", color: "bg-lainnya", catClass: "cat-lainnya",  url: "https://code.org/learn" },
+    { title: "Chess vs Computer",   category: "puzzle",   label: "Catur Lawan AI, Mode Tamu Tanpa Daftar",  emoji: "♟️", color: "bg-puzzle",  catClass: "cat-puzzle",   url: "https://www.chess.com/play/computer" },
+    { title: "Lightbot",            category: "puzzle",   label: "Arahkan Robot, Pengantar Konsep Coding",  emoji: "🤖", color: "bg-puzzle",   catClass: "cat-puzzle",   url: "https://lightbot.com/hour-of-code.html" },
+
+    // ═══════════════════ SENI & KREATIVITAS ═══════════════════
+    { title: "Chrome Music Lab",    category: "lainnya",  label: "Eksperimen Musik Interaktif dari Google", emoji: "🎹", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://musiclab.chromeexperiments.com/" },
+    { title: "AutoDraw",            category: "gambar",   label: "Gambar Bebas, AI Sempurnakan Sketsamu",   emoji: "🎨", color: "bg-gambar",   catClass: "cat-gambar",   url: "https://www.autodraw.com/" },
+    { title: "Google Arts Games",   category: "lainnya",  label: "Kuis Seni, Budaya & Sejarah Dunia",      emoji: "🎲", color: "bg-lainnya",  catClass: "cat-lainnya",  url: "https://artsandculture.google.com/game" },
+
+    // ═══════════════════ MULTIPLAYER OFFLINE — CO-OP (Kerja Sama) ═══════════════════
+    // Kontrol: WASD (P1) + Arrow Keys (P2) — 1 keyboard bersama
+
+    { title: "Money Movers",          category: "puzzle",   label: "Co-op: Dua Bersaudara Kabur dari Penjara", emoji: "💰", color: "bg-puzzle",  catClass: "cat-puzzle",   url: "https://www.crazygames.com/game/money-movers" },
+    { title: "Bad Ice Cream",         category: "puzzle",   label: "Co-op: Kumpulkan Buah, Hindari Musuh!",   emoji: "🍦", color: "bg-puzzle",   catClass: "cat-puzzle",   url: "https://www.crazygames.com/game/bad-ice-cream" },
+    { title: "Bad Ice Cream 2",       category: "puzzle",   label: "Co-op: Lanjutan Petualangan Es Krim",     emoji: "🍧", color: "bg-puzzle",   catClass: "cat-puzzle",   url: "https://www.crazygames.com/game/bad-ice-cream-2" },
+    { title: "Bad Ice Cream 3",       category: "puzzle",   label: "Co-op: Es Krim Edisi Terakhir & Terbaik", emoji: "🍨", color: "bg-puzzle",   catClass: "cat-puzzle",   url: "https://www.crazygames.com/game/bad-ice-cream-3" },
+
+    // ═══════════════════ MULTIPLAYER OFFLINE — KOMPETITIF (Duel) ═══════════════════
+    // Kontrol: WASD (P1) + Arrow Keys (P2) atau tombol terpisah — 1 keyboard bersama
+
+    { title: "Basket Random",         category: "olahraga", label: "Duel Basket Gila dengan Fisika Kocak",     emoji: "🏀", color: "bg-olahraga", catClass: "cat-olahraga", url: "https://www.crazygames.com/game/basket-random" },
+    { title: "Getaway Shootout",      category: "olahraga", label: "Duel Lomba Kabur dengan Power-Up Kocak",  emoji: "🏃", color: "bg-olahraga", catClass: "cat-olahraga", url: "https://www.crazygames.com/game/getaway-shootout" },
+    { title: "12 MiniBattles",        category: "olahraga", label: "12 Mini Game Duel Seru dalam 1 Game",     emoji: "⚔️", color: "bg-olahraga", catClass: "cat-olahraga", url: "https://www.crazygames.com/game/12-minibattles" },
+    { title: "Stickman Ragdoll",      category: "olahraga", label: "Duel Stickman Fisika Ragdoll 2 Pemain",   emoji: "🥊", color: "bg-olahraga", catClass: "cat-olahraga", url: "https://www.crazygames.com/game/stickman-ragdoll" },
+    { title: "House of Hazards",      category: "puzzle",   label: "Party Game: Selesaikan Tugas, Jebak Lawan!", emoji: "🏠", color: "bg-puzzle", catClass: "cat-puzzle",   url: "https://www.crazygames.com/game/house-of-hazards" },
+    { title: "Soccer Random",         category: "olahraga", label: "Duel Sepak Bola Fisika Kocak 2 Pemain",   emoji: "⚽", color: "bg-olahraga", catClass: "cat-olahraga", url: "https://www.crazygames.com/game/soccer-random" },
+    { title: "Drunken Duel",          category: "olahraga", label: "Duel Pistol 2 Pemain dengan Fisika Konyol", emoji: "🤠", color: "bg-olahraga", catClass: "cat-olahraga", url: "https://www.crazygames.com/game/drunken-duel" },
+    { title: "Ragdoll Archers",       category: "olahraga", label: "Duel Memanah Ragdoll Fisika 2 Pemain",    emoji: "🏹", color: "bg-olahraga", catClass: "cat-olahraga", url: "https://www.crazygames.com/game/ragdoll-archers" },
+    { title: "Bomb It",               category: "puzzle",   label: "Duel Lempar Bom Klasik ala Bomberman",    emoji: "💣", color: "bg-puzzle",   catClass: "cat-puzzle",   url: "https://www.crazygames.com/game/bomb-it" },
+
+    // ═══════════════════ MULTIPLAYER OFFLINE — STRATEGI / BOARD ═══════════════════
+
+    { title: "Master Chess",          category: "puzzle",   label: "Duel Catur Klasik 2 Pemain Satu Layar",   emoji: "♟️", color: "bg-puzzle",   catClass: "cat-puzzle",   url: "https://www.crazygames.com/game/master-chess-multiplayer" },
+    { title: "4 In A Row",            category: "puzzle",   label: "Duel Susun 4 Bidak Berurutan 2 Pemain",   emoji: "🔴", color: "bg-puzzle",   catClass: "cat-puzzle",   url: "https://www.crazygames.com/game/four-in-a-row" },
+    { title: "Tic Tac Toe",           category: "puzzle",   label: "Duel Klasik XO — Cepat & Seru di Kelas",  emoji: "❌", color: "bg-puzzle",   catClass: "cat-puzzle",   url: "https://www.crazygames.com/game/tic-tac-toe" },
   ];
 
+  /* =============================================
+     OPEN GAME — Android WebView Bridge
+     Tries Android interface first, falls back to window.open
+  ============================================= */
+  function openGame(url, title, e) {
+    e.stopPropagation();
+    showToast('🎮 Membuka ' + title + '...');
+
+    setTimeout(function() {
+      /*
+       * Untuk Android WebView:
+       * Panggil interface JavaScript yang di-expose dari Android (WebAppInterface).
+       * Metode openBrowser(url) harus diimplementasikan di sisi Android
+       * menggunakan Intent ACTION_VIEW agar terbuka di browser sistem.
+       *
+       * Contoh Android (Kotlin):
+       *   class WebAppInterface(val context: Context) {
+       *     @JavascriptInterface
+       *     fun openBrowser(url: String) {
+       *       val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+       *       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+       *       context.startActivity(intent)
+       *     }
+       *   }
+       *   webView.addJavascriptInterface(WebAppInterface(this), "Android")
+       */
+      if (typeof Android !== 'undefined' && typeof Android.openBrowser === 'function') {
+        Android.openBrowser(url);
+      } else {
+        /* Fallback: browser / desktop */
+        window.open(url, '_blank');
+      }
+    }, 500);
+  }
+
+  /* =============================================
+     FILTER & RENDER
+  ============================================= */
   let currentFilter = 'semua';
 
   function setFilter(cat, el) {
     currentFilter = cat;
-    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.pill').forEach(function(p) { p.classList.remove('active'); });
     el.classList.add('active');
     filterGames();
   }
 
   function filterGames() {
-    const q = document.getElementById('search').value.toLowerCase();
-    const grid = document.getElementById('games-grid');
+    var q = document.getElementById('search').value.toLowerCase();
+    var grid = document.getElementById('games-grid');
     grid.innerHTML = '';
 
-    const filtered = games.filter(g => {
-      const matchCat = currentFilter === 'semua' || g.category === currentFilter;
-      const matchQ = g.title.toLowerCase().includes(q) || g.label.toLowerCase().includes(q);
+    var filtered = games.filter(function(g) {
+      var matchCat = currentFilter === 'semua' || g.category === currentFilter;
+      var matchQ = g.title.toLowerCase().includes(q) || g.label.toLowerCase().includes(q);
       return matchCat && matchQ;
     });
 
     document.getElementById('game-count').innerHTML =
-      `Menampilkan <strong>${filtered.length}</strong> dari ${games.length} game`;
+      'Menampilkan <strong>' + filtered.length + '</strong> dari ' + games.length + ' game';
 
     if (filtered.length === 0) {
-      grid.innerHTML = `
-        <div class="empty-state">
-          <p style="font-size:2rem;margin-bottom:12px;">🔍</p>
-          <p style="font-size:1rem;font-weight:600;margin-bottom:6px;">Game tidak ditemukan</p>
-          <p style="font-size:0.85rem;">Coba kata kunci atau filter yang lain</p>
-        </div>
-      `;
+      grid.innerHTML = '<div class="empty-state"><span class="empty-icon">🔍</span><h3>Game tidak ditemukan</h3><p>Coba kata kunci atau filter yang lain</p></div>';
       return;
     }
 
-    filtered.forEach((g, i) => {
-      const card = document.createElement('div');
+    filtered.forEach(function(g, i) {
+      var card = document.createElement('div');
       card.className = 'game-card';
-      card.style.animationDelay = (i * 0.05) + 's';
-      card.innerHTML = `
-        <div class="card-header">
-          <div class="card-bg-glow ${g.color}"></div>
-          <div class="game-icon-placeholder">${g.emoji}</div>
-          <div class="category-badge ${g.catClass}">${g.category.toUpperCase()}</div>
-        </div>
-        <div class="card-body">
-          <div class="game-title">${g.title}</div>
-          <div class="game-meta">${g.label}</div>
-          <button class="play-btn" onclick="openGame('${g.url}', '${g.title}', event)">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
-            MAIN
-          </button>
-        </div>
-      `;
+      card.style.animationDelay = (i * 0.04) + 's';
+
+      var safeUrl = g.url.replace(/'/g, "\\'");
+      var safeTitle = g.title.replace(/'/g, "\\'");
+
+      card.innerHTML =
+        '<div class="card-header">' +
+          '<div class="card-bg-glow ' + g.color + '"></div>' +
+          '<span class="game-emoji">' + g.emoji + '</span>' +
+          '<div class="category-badge ' + g.catClass + '">' + g.category.toUpperCase() + '</div>' +
+        '</div>' +
+        '<div class="card-body">' +
+          '<div class="game-title">' + g.title + '</div>' +
+          '<div class="game-meta">' + g.label + '</div>' +
+          '<button class="play-btn" onclick="openGame(\'' + safeUrl + '\', \'' + safeTitle + '\', event)">' +
+            '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>' +
+            'PLAY' +
+          '</button>' +
+        '</div>';
+
       grid.appendChild(card);
     });
   }
 
-  function openGame(url, title, e) {
-    e.stopPropagation();
-    showToast('🎮 Membuka ' + title + '...');
-    setTimeout(() => { window.open(url, '_self'); }, 600);
-  }
-
+  /* =============================================
+     TOAST
+  ============================================= */
   function showToast(msg) {
-    const t = document.getElementById('toast');
+    var t = document.getElementById('toast');
     t.textContent = msg;
     t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
+    setTimeout(function() { t.classList.remove('show'); }, 2800);
   }
 
+  /* =============================================
+     CLOCK (Smartboard classroom clock)
+  ============================================= */
+  var HARI = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  var BULAN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+
+  function updateClock() {
+    var now = new Date();
+    var h = String(now.getHours()).padStart(2, '0');
+    var m = String(now.getMinutes()).padStart(2, '0');
+    var s = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('clock').textContent = h + ':' + m + ':' + s;
+
+    var hari = HARI[now.getDay()];
+    var tgl = now.getDate();
+    var bln = BULAN[now.getMonth()];
+    var thn = now.getFullYear();
+    document.getElementById('dateLabel').textContent = hari + ', ' + tgl + ' ' + bln + ' ' + thn;
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  /* Init */
   filterGames();
-
-  // Theme toggle
-  let isLight = false;
-  function toggleTheme() {
-    isLight = !isLight;
-    document.documentElement.classList.toggle('light', isLight);
-    document.getElementById('themeIcon').textContent = isLight ? '☀️' : '🌙';
-    document.getElementById('themeLabel').textContent = isLight ? 'Light' : 'Dark';
-    localStorage.setItem('hamasaTheme', isLight ? 'light' : 'dark');
-    showToast(isLight ? '☀️ Tema terang aktif' : '🌙 Tema gelap aktif');
-  }
-
-  // Restore saved theme
-  if (localStorage.getItem('hamasaTheme') === 'light') {
-    isLight = true;
-    document.documentElement.classList.add('light');
-    document.getElementById('themeIcon').textContent = '☀️';
-    document.getElementById('themeLabel').textContent = 'Light';
-  }
 </script>
 </body>
 </html>
